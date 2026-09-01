@@ -169,28 +169,36 @@ class ExpenseProvider extends ChangeNotifier {
     try {
       final snapshot =
       await collection.get();
+      print('firebase expense data --> ${snapshot.toString()}');
 
       final List<Expense> loaded =
       [];
 
-      for (final doc
-      in snapshot.docs) {
+      // getting data from firestore
+      for (final doc in snapshot.docs) {
         try {
           final expense =
-          Expense.fromFirestore(
-            doc,
+          Expense.fromFirestore(doc);
+
+          debugPrint(
+            'LOADED FIRESTORE EXPENSE: '
+                '${doc.id} | '
+                '${expense.title} | '
+                '${expense.amount} | '
+                '${expense.category} | '
+                '${expense.userId}',
           );
 
-          // Extra safety:
-          // Only current Firebase UID.
-          if (expense.userId ==
-              firebaseUser.uid) {
-            loaded.add(expense);
-          }
+          loaded.add(expense);
         } catch (e) {
           debugPrint(
-            'Expense parse error '
-                '${doc.id}: $e',
+            '🔥 EXPENSE PARSE ERROR: '
+                '${doc.id} | $e',
+          );
+
+          debugPrint(
+            '🔥 RAW FIRESTORE DATA: '
+                '${doc.data()}',
           );
         }
       }
