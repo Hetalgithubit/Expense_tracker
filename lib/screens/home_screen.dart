@@ -166,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                         decoration:
                         BoxDecoration(
                           color:
-                          AppColors.greendark,
+                          AppColors.greenDark,
                           borderRadius:
                           BorderRadius.circular(
                             12,
@@ -224,7 +224,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          /
+
 
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
