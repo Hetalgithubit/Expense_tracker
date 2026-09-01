@@ -29,9 +29,9 @@ class UserProvider extends ChangeNotifier {
   String? get firebaseUserId =>
       _auth.currentUser?.uid;
 
-  // ============================================================
+
   // INIT
-  // ============================================================
+
 
   Future<void> init() async {
     final firebaseUser =
@@ -46,9 +46,8 @@ class UserProvider extends ChangeNotifier {
     await loadCurrentUser();
   }
 
-  // ============================================================
   // LOAD FIREBASE USER
-  // ============================================================
+
 
   Future<void> loadCurrentUser() async {
     final firebaseUser =
@@ -121,9 +120,8 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  // ============================================================
-  // SELECT USER
-  // ============================================================
+
+
 
   void selectUser(User user) {
     final firebaseUser =
@@ -160,9 +158,9 @@ class UserProvider extends ChangeNotifier {
     loadCurrentUser();
   }
 
-  // ============================================================
+
   // UPDATE USER
-  // ============================================================
+
 
   Future<void> updateUser(User user) async {
     final firebaseUser =
@@ -200,16 +198,15 @@ class UserProvider extends ChangeNotifier {
     await loadCurrentUser();
   }
 
-  // ============================================================
+
   // ADD USER
-  // ============================================================
-  //
+
   // Kept only for compatibility with
   // old UserScreen code.
   //
   // The actual application user is
   // always the Firebase account.
-  // ============================================================
+
 
   Future<void> addUser({
     required String name,
@@ -250,13 +247,13 @@ class UserProvider extends ChangeNotifier {
     await loadCurrentUser();
   }
 
-  // ============================================================
+
   // DELETE USER
-  // ============================================================
-  //
+
+
   // Do NOT delete Firebase account/data
   // from this method.
-  // ============================================================
+
 
   Future<void> deleteUser(
       String userId) async {
@@ -277,17 +274,17 @@ class UserProvider extends ChangeNotifier {
     );
   }
 
-  // ============================================================
+
   // REFRESH
-  // ============================================================
+
 
   Future<void> refreshUsers() async {
     await loadCurrentUser();
   }
 
-  // ============================================================
+
   // CLEAR
-  // ============================================================
+
 
   void clearUser() {
     _selectedUser = null;

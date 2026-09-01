@@ -7,7 +7,7 @@ class AppColors {
 
   static const card2 = Color(0xFF002612);
 
-  static const border = Color(0xF2E1335F);
+  static const border = Color(0xF210300A);
 
   static const green = Color(0xFF16D365);
 
