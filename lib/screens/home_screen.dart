@@ -171,7 +171,7 @@ class HomeScreen extends StatelessWidget {
                           width: 12,
                         ),
 
-                        // DATE
+
                         Expanded(
                           child:
                           Column(
@@ -206,7 +206,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
 
-                        // NOTIFICATION
+
                         Container(
                           padding:
                           const EdgeInsets
@@ -249,9 +249,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            // ==================================================
-            // BUDGET
-            // ==================================================
+
 
             SliverPadding(
               padding:
@@ -272,9 +270,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            // ==================================================
-            // LATEST TRANSACTION
-            // ==================================================
+
 
             SliverPadding(
               padding:
@@ -329,9 +325,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            // ==================================================
-            // TOP CATEGORIES TITLE
-            // ==================================================
+
 
             SliverPadding(
               padding:
@@ -363,9 +357,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            // ==================================================
-            // TOP CATEGORIES
-            // ==================================================
+
 
             SliverPadding(
               padding:
@@ -526,9 +518,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            // ==================================================
-            // RECENT TRANSACTION TITLE
-            // ==================================================
+
 
             SliverPadding(
               padding:
@@ -560,9 +550,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
 
-            // ==================================================
-            // RECENT TRANSACTIONS
-            // ==================================================
 
             SliverPadding(
               padding:
@@ -647,9 +634,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ============================================================
-  // PROFILE INITIAL
-  // ============================================================
+
 
   String _profileInitial(
       firebase_auth.User?
@@ -683,9 +668,7 @@ class HomeScreen extends StatelessWidget {
     return 'U';
   }
 
-  // ============================================================
-  // PROFILE SHEET
-  // ============================================================
+
 
   void _showProfileSheet(
       BuildContext context,
@@ -826,9 +809,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ============================================================
-  // USER CARD
-  // ============================================================
+
 
   Widget _userCard(
       firebase_auth.User?
@@ -958,9 +939,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ============================================================
-  // BUDGET CARD
-  // ============================================================
+
 
   Widget _budgetCard(
       ExpenseProvider provider,
@@ -1151,9 +1130,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // ============================================================
-  // MONTH NAME
-  // ============================================================
+
 
   String _monthName(
       int month,
