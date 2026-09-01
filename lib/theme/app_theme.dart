@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const background = Color(0xFF000000);
+  static const background = Color(0xFF000B6B);
 
   static const card = Color(0xFF001D0E);
 
-  static const card2 = Color(0xFF002612);
+  static const card2 = Color(0xFF8F1989);
 
-  static const border = Color(0xFF000B6B);
+  static const border = Color(0xFF006B12);
 
   static const green = Color(0xFF16D365);
 
   static const greenDark = Color(0xFF063D21);
 
-  static const text = Color(0xFFF5F7F6);
+  static const text = Color(0xFFE0EFE8);
 
-  static const muted = Color(0xFF8B9792);
+  static const muted = Color(0xFF11A568);
 
-  static const red = Color(0xFFFF4048);
+  static const red = Color(0xFF130D0D);
 
-  static const purple = Color(0xFF9B5DE5);
+  static const purple = Color(0xF2120609);
 
   static const pink = Color(0xFFE86AF2);
 

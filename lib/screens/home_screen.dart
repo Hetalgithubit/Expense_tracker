@@ -40,9 +40,7 @@ class HomeScreen extends StatelessWidget {
     final now =
     DateTime.now();
 
-    // ============================================================
-    // LOGIN CHECK
-    // ============================================================
+
 
     if (firebaseUser == null) {
       return const SafeArea(
@@ -54,14 +52,6 @@ class HomeScreen extends StatelessWidget {
       );
     }
 
-    // ============================================================
-    // IMPORTANT
-    //
-    // ExpenseProvider already loads expenses only for the
-    // currently logged-in Firebase UID.
-    //
-    // DO NOT FILTER AGAIN BY selectedUser.
-    // ============================================================
 
     final userExpenses =
     List.of(
@@ -75,9 +65,7 @@ class HomeScreen extends StatelessWidget {
           ),
     );
 
-    // ============================================================
-    // EXPENSE ONLY
-    // ============================================================
+
 
     final expenseOnly =
     userExpenses
@@ -87,9 +75,7 @@ class HomeScreen extends StatelessWidget {
     )
         .toList();
 
-    // ============================================================
-    // CATEGORY TOTALS
-    // ============================================================
+
 
     final Map<String, double>
     totals = {};
@@ -111,9 +97,7 @@ class HomeScreen extends StatelessWidget {
             ),
       );
 
-    // ============================================================
-    // HOME
-    // ============================================================
+
 
     return SafeArea(
       child:
@@ -128,9 +112,7 @@ class HomeScreen extends StatelessWidget {
         child:
         CustomScrollView(
           slivers: [
-            // ==================================================
-            // HEADER
-            // ==================================================
+
 
             SliverPadding(
               padding:
