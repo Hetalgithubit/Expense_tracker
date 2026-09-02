@@ -22,7 +22,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final expenseProvider =
     context.watch<ExpenseProvider>();
 
@@ -36,8 +35,6 @@ class HomeScreen extends StatelessWidget {
         userProvider.selectedUser;
 
     final now = DateTime.now();
-
-
 
     final firebaseUid = firebaseUser?.uid;
 
@@ -55,16 +52,12 @@ class HomeScreen extends StatelessWidget {
           (a, b) => b.date.compareTo(a.date),
     );
 
-
-
     final List<Expense> expenseOnly =
     userExpenses
         .where(
           (expense) => !expense.isIncome,
     )
         .toList();
-
-
 
     final Map<String, double> categoryTotals = {};
 
@@ -81,13 +74,9 @@ class HomeScreen extends StatelessWidget {
             b.value.compareTo(a.value),
       );
 
-
-
     return SafeArea(
       child: CustomScrollView(
         slivers: [
-
-
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               16,
@@ -100,7 +89,6 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      // PROFILE
                       GestureDetector(
                         onTap: () {
                           _showProfileSheet(
@@ -130,27 +118,27 @@ class HomeScreen extends StatelessWidget {
 
                       const SizedBox(width: 12),
 
-                      // DATE
                       Expanded(
                         child: Column(
                           crossAxisAlignment:
-                          CrossAxisAlignment.center,
+                          CrossAxisAlignment.start,
                           children: [
                             const Text(
                               'Good Morning',
                               style: TextStyle(
-                                color:
-                                AppColors.red,
+                                color: AppColors.muted,
                               ),
                             ),
+
                             const SizedBox(
                               height: 6,
                             ),
+
                             Text(
                               '${_monthName(now.month)} ${now.year}',
                               style:
                               const TextStyle(
-                                fontSize: 34,
+                                fontSize: 45,
                                 fontWeight:
                                 FontWeight.w800,
                               ),
@@ -159,7 +147,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
-                      // NOTIFICATION
                       Container(
                         padding:
                         const EdgeInsets.all(12),
@@ -191,8 +178,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-
-
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               16,
@@ -208,8 +193,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-
-
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
               16,
@@ -223,8 +206,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-
-
 
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(
@@ -249,8 +230,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-
-
 
           SliverPadding(
             padding:
@@ -386,68 +365,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(
-              16,
-              28,
-              16,
-              8,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: SectionTitle(
-                'Latest Transaction',
-                action: 'View all',
-                onAction: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                      const AllTransactionsScreen(),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-
-
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: userExpenses.isEmpty
-                  ? const AppCard(
-                child: Padding(
-                  padding:
-                  EdgeInsets.all(20),
-                  child: Center(
-                    child: Text(
-                      'No transactions yet',
-                    ),
-                  ),
-                ),
-              )
-                  : TransactionTile(
-                expense:
-                userExpenses.first,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          TransactionDetailsScreen(
-                            expenseId:
-                            userExpenses
-                                .first
-                                .id,
-                          ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
 
 
           SliverPadding(
@@ -473,7 +390,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-
 
 
           SliverPadding(
@@ -526,9 +442,9 @@ class HomeScreen extends StatelessWidget {
   }
 
 
+
   Widget _todaySpentCard(
-      List<Expense> expenses,
-      ) {
+      List<Expense> expenses) {
     final now = DateTime.now();
 
     final todayExpenses =
@@ -548,7 +464,6 @@ class HomeScreen extends StatelessWidget {
     return AppCard(
       child: Row(
         children: [
-          // LEFT
           Expanded(
             child: Column(
               crossAxisAlignment:
@@ -586,7 +501,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          // RIGHT ICON
           Container(
             width: 58,
             height: 58,
@@ -610,8 +524,7 @@ class HomeScreen extends StatelessWidget {
 
   String _profileInitial(
       firebase_auth.User? firebaseUser,
-      dynamic selectedUser,
-      ) {
+      dynamic selectedUser) {
     final name =
         firebaseUser?.displayName ??
             selectedUser?.name ??
@@ -637,11 +550,11 @@ class HomeScreen extends StatelessWidget {
   }
 
 
+
   void _showProfileSheet(
       BuildContext context,
       firebase_auth.User? firebaseUser,
-      dynamic selectedUser,
-      ) {
+      dynamic selectedUser) {
     final authProvider =
     context.read<AuthProvider>();
 
@@ -753,11 +666,9 @@ class HomeScreen extends StatelessWidget {
   }
 
 
-
   Widget _userCard(
       dynamic selectedUser,
-      firebase_auth.User? firebaseUser,
-      ) {
+      firebase_auth.User? firebaseUser) {
     if (firebaseUser == null) {
       return Container(
         width: double.infinity,
@@ -906,11 +817,9 @@ class HomeScreen extends StatelessWidget {
 
   Widget _budgetCard(
       ExpenseProvider provider,
-      List<Expense> userExpenses,
-      ) {
+      List<Expense> userExpenses) {
     final now = DateTime.now();
 
-    // Current month expenses only.
     final monthlyExpenses =
     userExpenses.where((expense) {
       return !expense.isIncome &&
@@ -925,7 +834,6 @@ class HomeScreen extends StatelessWidget {
       sum + expense.amount,
     );
 
-    // Current month income.
     final monthlyIncome =
     userExpenses.where((expense) {
       return expense.isIncome &&
@@ -956,8 +864,6 @@ class HomeScreen extends StatelessWidget {
     return AppCard(
       child: Row(
         children: [
-
-
           Expanded(
             child: Column(
               crossAxisAlignment:
@@ -1030,8 +936,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-
-
           const SizedBox(width: 16),
 
           SizedBox(
@@ -1073,7 +977,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
 
 
   String _monthName(int month) {
