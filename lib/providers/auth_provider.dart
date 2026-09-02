@@ -39,7 +39,7 @@ class AuthProvider extends ChangeNotifier {
       _auth.authStateChanges();
 
 
-  // INIT
+
 
 
   Future<void> init() async {

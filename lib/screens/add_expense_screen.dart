@@ -83,9 +83,7 @@ class _AddExpenseScreenState
     super.dispose();
   }
 
-  // ============================================================
-  // SAVE
-  // ============================================================
+
 
   Future<void> save() async {
     final amount =
@@ -110,9 +108,7 @@ class _AddExpenseScreenState
       return;
     }
 
-    // ----------------------------------------------------------
-    // CURRENT FIREBASE USER
-    // ----------------------------------------------------------
+
 
     final firebaseUser =
         FirebaseAuth
@@ -145,8 +141,7 @@ class _AddExpenseScreenState
               .microsecondsSinceEpoch
               .toString(),
 
-      // IMPORTANT
-      // Firebase UID is used.
+
       userId:
       firebaseUser.uid,
 
@@ -174,9 +169,7 @@ class _AddExpenseScreenState
     );
 
     try {
-      // --------------------------------------------------------
-      // ADD
-      // --------------------------------------------------------
+
 
       if (!isEditMode) {
         await provider.addExpense(
@@ -184,9 +177,6 @@ class _AddExpenseScreenState
         );
       }
 
-      // --------------------------------------------------------
-      // UPDATE
-      // --------------------------------------------------------
 
       else {
         await provider.updateExpense(
@@ -204,7 +194,7 @@ class _AddExpenseScreenState
             : 'Expense saved successfully',
       );
 
-      // Close edit screen.
+
       if (isEditMode) {
         Navigator.pop(context);
       } else {
@@ -221,9 +211,7 @@ class _AddExpenseScreenState
     }
   }
 
-  // ============================================================
-  // MESSAGE
-  // ============================================================
+
 
   void _message(
       String message,
