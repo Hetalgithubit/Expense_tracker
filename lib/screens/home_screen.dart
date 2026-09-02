@@ -21,13 +21,11 @@ class HomeScreen extends StatelessWidget {
   });
 
   @override
-<<<<<<< HEAD
+
   Widget build(
       BuildContext context,
       ) {
-=======
   Widget build(BuildContext context) {
->>>>>>> hetal2
     final expenseProvider =
     context.watch<
         ExpenseProvider>();
@@ -44,7 +42,7 @@ class HomeScreen extends StatelessWidget {
     final now =
     DateTime.now();
 
-<<<<<<< HEAD
+
 
 
     if (firebaseUser == null) {
@@ -56,9 +54,9 @@ class HomeScreen extends StatelessWidget {
         ),
       );
     }
-=======
+
     final firebaseUid = firebaseUser?.uid;
->>>>>>> hetal2
+
 
 
     final userExpenses =
@@ -73,13 +71,12 @@ class HomeScreen extends StatelessWidget {
           ),
     );
 
-<<<<<<< HEAD
+
 
 
     final expenseOnly =
-=======
+
     final List<Expense> expenseOnly =
->>>>>>> hetal2
     userExpenses
         .where(
           (expense) =>
@@ -87,14 +84,13 @@ class HomeScreen extends StatelessWidget {
     )
         .toList();
 
-<<<<<<< HEAD
+
 
 
     final Map<String, double>
     totals = {};
-=======
+
     final Map<String, double> categoryTotals = {};
->>>>>>> hetal2
 
     for (final expense
     in expenseOnly) {
@@ -114,7 +110,7 @@ class HomeScreen extends StatelessWidget {
       );
 
     return SafeArea(
-<<<<<<< HEAD
+
       child:
       RefreshIndicator(
         onRefresh: () async {
@@ -161,7 +157,7 @@ class HomeScreen extends StatelessWidget {
                             AppColors
                                 .greenDark,
                             child:
-=======
+
       child: CustomScrollView(
         slivers: [
           SliverPadding(
@@ -221,7 +217,7 @@ class HomeScreen extends StatelessWidget {
                               height: 6,
                             ),
 
->>>>>>> hetal2
+
                             Text(
                               _profileInitial(
                                 firebaseUser,
@@ -230,13 +226,13 @@ class HomeScreen extends StatelessWidget {
                               ),
                               style:
                               const TextStyle(
-<<<<<<< HEAD
+
                                 color:
                                 AppColors
                                     .green,
-=======
+
                                 fontSize: 45,
->>>>>>> hetal2
+
                                 fontWeight:
                                 FontWeight
                                     .w800,
@@ -247,7 +243,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
 
-<<<<<<< HEAD
+
                         const SizedBox(
                           width: 12,
                         ),
@@ -302,8 +298,7 @@ class HomeScreen extends StatelessWidget {
                             BorderRadius
                                 .circular(
                               12,
-                            ),
-=======
+
                       Container(
                         padding:
                         const EdgeInsets.all(12),
@@ -474,7 +469,7 @@ class HomeScreen extends StatelessWidget {
                           style:
                           const TextStyle(
                             fontSize: 20,
->>>>>>> hetal2
+
                           ),
                           child:
                           const Icon(
@@ -488,7 +483,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
 
-<<<<<<< HEAD
+
                     const SizedBox(
                       height: 16,
                     ),
@@ -560,7 +555,7 @@ class HomeScreen extends StatelessWidget {
                   expense:
                   userExpenses
                       .first,
-=======
+
 
 
           SliverPadding(
@@ -616,7 +611,7 @@ class HomeScreen extends StatelessWidget {
 
                 return TransactionTile(
                   expense: expense,
->>>>>>> hetal2
+
                   onTap: () {
                     Navigator.push(
                       context,
@@ -637,13 +632,11 @@ class HomeScreen extends StatelessWidget {
             ),
 
 
-<<<<<<< HEAD
-=======
 
   Widget _todaySpentCard(
       List<Expense> expenses) {
     final now = DateTime.now();
->>>>>>> hetal2
+
 
             SliverPadding(
               padding:
@@ -676,7 +669,7 @@ class HomeScreen extends StatelessWidget {
             ),
 
 
-<<<<<<< HEAD
+
 
             SliverPadding(
               padding:
@@ -898,7 +891,7 @@ class HomeScreen extends StatelessWidget {
                         'No recent transactions',
                       ),
                     ),
-=======
+
     return AppCard(
       child: Row(
         children: [
