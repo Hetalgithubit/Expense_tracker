@@ -20,6 +20,9 @@ class CustomReportScreen
       _CustomReportScreenState();
 }
 
+
+
+
 class _CustomReportScreenState
     extends State<CustomReportScreen> {
   String selected =
@@ -43,6 +46,7 @@ class _CustomReportScreenState
       );
     }
 
+
     if (selected == 'This Year') {
       return DateTimeRange(
         start: DateTime(
@@ -58,6 +62,10 @@ class _CustomReportScreenState
       );
     }
 
+
+
+
+
     if (selected == 'Custom' &&
         customFrom != null &&
         customTo != null) {
@@ -66,6 +74,8 @@ class _CustomReportScreenState
         end: customTo!,
       );
     }
+
+
 
     return DateTimeRange(
       start: DateTime(
