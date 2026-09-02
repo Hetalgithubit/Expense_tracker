@@ -62,6 +62,7 @@ class AppTheme {
       fontFamily: 'Arial, Helvetica, sans-serif',
 
 
+
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.black,
         elevation: 0,
