@@ -48,7 +48,7 @@ class ExpenseProvider extends ChangeNotifier {
       _isLoading;
 
 
-  // FIRESTORE USER
+
 
 
   DocumentReference<Map<String, dynamic>>?
@@ -66,7 +66,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // EXPENSE COLLECTION
+
 
   CollectionReference<Map<String, dynamic>>?
   get _expenseCollection {
@@ -84,7 +84,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // BUDGET DOCUMENT
+
 
   DocumentReference<Map<String, dynamic>>?
   get _budgetDocument {
@@ -103,7 +103,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // INIT
+
 
 
   Future<void> init({
@@ -144,7 +144,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // LOAD EXPENSES
+
 
 
   Future<void>
@@ -215,9 +215,7 @@ class ExpenseProvider extends ChangeNotifier {
       _selectedUserId =
           firebaseUser.uid;
 
-      debugPrint(
-        '================================',
-      );
+
 
       debugPrint(
         'FIREBASE UID: '
@@ -229,9 +227,7 @@ class ExpenseProvider extends ChangeNotifier {
             '${loaded.length}',
       );
 
-      debugPrint(
-        '================================',
-      );
+
 
       notifyListeners();
     } catch (e) {
@@ -244,7 +240,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // LOAD USER
 
 
   Future<void>
@@ -259,7 +254,6 @@ class ExpenseProvider extends ChangeNotifier {
       return;
     }
 
-    // Ignore local/old user IDs.
 
     final uid =
         firebaseUser.uid;
@@ -271,7 +265,7 @@ class ExpenseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // SET USER
+
 
 
   Future<void> setUser(
@@ -283,7 +277,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // CLEAR USER
+
 
   void clearUser() {
     _selectedUserId = null;
@@ -298,7 +292,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // ADD EXPENSE
 
 
   Future<void> addExpense(
@@ -335,7 +328,7 @@ class ExpenseProvider extends ChangeNotifier {
     );
 
 
-    // FIRESTORE FIRST
+
 
 
     await collection
@@ -345,7 +338,7 @@ class ExpenseProvider extends ChangeNotifier {
     );
 
 
-    // UPDATE MEMORY IMMEDIATELY
+
 
 
     _selectedUserId = uid;
@@ -457,7 +450,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // DELETE EXPENSE
 
 
   Future<void> deleteExpense(
@@ -493,7 +485,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // GET EXPENSE
+
 
   Expense? getExpenseById(
       String id,
@@ -509,7 +501,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // LOAD BUDGET
+
 
   Future<void>
   loadBudgetFromFirestore() async {
@@ -558,7 +550,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // SAVE BUDGET
+
 
   Future<void>
   saveBudgetToFirestore(
@@ -620,7 +612,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // MONTHLY BUDGET
+
 
 
   Future<void> setMonthlyBudget(
@@ -647,7 +639,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // CATEGORY BUDGET
 
 
   Future<void> setCategoryBudget(
@@ -679,7 +670,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // DATE RANGE
+
 
 
   List<Expense> inRange(
@@ -709,7 +700,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // CURRENT MONTH
+
 
   List<Expense>
   get currentMonthExpenses {
@@ -731,7 +722,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // CURRENT MONTH EXPENSE ONLY
+
 
   List<Expense>
   get currentMonthOnlyExpenses {
@@ -744,7 +735,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // MONTHLY SPENT
 
   double get monthlySpent {
     return currentMonthOnlyExpenses
@@ -756,7 +746,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // MONTHLY INCOME
 
   double get monthlyIncome {
     return currentMonthExpenses
@@ -772,7 +761,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // REMAINING BUDGET
+
 
 
   double get remainingBudget {
@@ -781,7 +770,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // BUDGET PERCENT
+
 
 
   double get budgetPercent {
@@ -799,7 +788,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // CATEGORY TOTALS
+
 
 
   Map<String, double>
@@ -837,7 +826,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // PAYMENT TOTALS
+
 
   Map<String, double>
   paymentTotals({
@@ -876,7 +865,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // SPENT BETWEEN
+
 
 
   double spentBetween(
@@ -899,7 +888,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-  // INCOME BETWEEN
+
 
   double incomeBetween(
       DateTime from,

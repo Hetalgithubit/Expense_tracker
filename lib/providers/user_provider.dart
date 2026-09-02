@@ -30,7 +30,6 @@ class UserProvider extends ChangeNotifier {
       _auth.currentUser?.uid;
 
 
-  // INIT
 
 
   Future<void> init() async {
@@ -46,7 +45,7 @@ class UserProvider extends ChangeNotifier {
     await loadCurrentUser();
   }
 
-  // LOAD FIREBASE USER
+
 
 
   Future<void> loadCurrentUser() async {
@@ -159,7 +158,6 @@ class UserProvider extends ChangeNotifier {
   }
 
 
-  // UPDATE USER
 
 
   Future<void> updateUser(User user) async {
@@ -199,13 +197,7 @@ class UserProvider extends ChangeNotifier {
   }
 
 
-  // ADD USER
 
-  // Kept only for compatibility with
-  // old UserScreen code.
-  //
-  // The actual application user is
-  // always the Firebase account.
 
 
   Future<void> addUser({
@@ -248,11 +240,6 @@ class UserProvider extends ChangeNotifier {
   }
 
 
-  // DELETE USER
-
-
-  // Do NOT delete Firebase account/data
-  // from this method.
 
 
   Future<void> deleteUser(
@@ -275,7 +262,6 @@ class UserProvider extends ChangeNotifier {
   }
 
 
-  // REFRESH
 
 
   Future<void> refreshUsers() async {
@@ -283,7 +269,6 @@ class UserProvider extends ChangeNotifier {
   }
 
 
-  // CLEAR
 
 
   void clearUser() {
