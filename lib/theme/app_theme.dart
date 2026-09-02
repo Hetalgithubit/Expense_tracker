@@ -13,7 +13,7 @@ class AppColors {
 
   static const greenDark = Color(0xFF063D21);
 
-  static const text = Color(0xFFF5F7F6);
+  static const text = Color(0xFF130D0D);
 
   static const muted = Color(0xFF8B9792);
 
