@@ -3,6 +3,7 @@ as firebase_auth;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/expense.dart';
 import '../providers/auth_provider.dart';
 import '../providers/expense_provider.dart';
 import '../providers/user_provider.dart';
@@ -10,7 +11,6 @@ import '../theme/app_theme.dart';
 import '../utils/constants.dart';
 import '../widgets/common_widgets.dart';
 import '../widgets/transaction_tile.dart';
-
 import 'all_categories_screen.dart';
 import 'all_transactions_screen.dart';
 import 'transaction_details_screen.dart';
@@ -21,143 +21,60 @@ class HomeScreen extends StatelessWidget {
   });
 
   @override
-
-  Widget build(
-      BuildContext context,
-      ) {
   Widget build(BuildContext context) {
     final expenseProvider =
-    context.watch<
-        ExpenseProvider>();
+    context.watch<ExpenseProvider>();
 
     final userProvider =
     context.watch<UserProvider>();
 
     final firebaseUser =
-        firebase_auth
-            .FirebaseAuth
-            .instance
-            .currentUser;
+        firebase_auth.FirebaseAuth.instance.currentUser;
 
-    final now =
-    DateTime.now();
+    final selectedUser =
+        userProvider.selectedUser;
 
-
-
-
-    if (firebaseUser == null) {
-      return const SafeArea(
-        child: Center(
-          child: Text(
-            'Please login first',
-          ),
-        ),
-      );
-    }
+    final now = DateTime.now();
 
     final firebaseUid = firebaseUser?.uid;
 
-
-
-    final userExpenses =
-    List.of(
-      expenseProvider.expenses,
-    );
+    final List<Expense> userExpenses =
+    firebaseUid == null
+        ? <Expense>[]
+        : expenseProvider.expenses
+        .where(
+          (expense) =>
+      expense.userId == firebaseUid,
+    )
+        .toList();
 
     userExpenses.sort(
-          (a, b) =>
-          b.date.compareTo(
-            a.date,
-          ),
+          (a, b) => b.date.compareTo(a.date),
     );
-
-
-
-
-    final expenseOnly =
 
     final List<Expense> expenseOnly =
     userExpenses
         .where(
-          (expense) =>
-      !expense.isIncome,
+          (expense) => !expense.isIncome,
     )
         .toList();
 
-
-
-
-    final Map<String, double>
-    totals = {};
-
     final Map<String, double> categoryTotals = {};
 
-    for (final expense
-    in expenseOnly) {
-      totals[expense.category] =
-          (totals[expense.category] ??
-              0) +
+    for (final expense in expenseOnly) {
+      categoryTotals[expense.category] =
+          (categoryTotals[expense.category] ?? 0) +
               expense.amount;
     }
 
-    final top =
-    totals.entries.toList()
+    final topCategories =
+    categoryTotals.entries.toList()
       ..sort(
             (a, b) =>
-            b.value.compareTo(
-              a.value,
-            ),
+            b.value.compareTo(a.value),
       );
 
     return SafeArea(
-
-      child:
-      RefreshIndicator(
-        onRefresh: () async {
-          await expenseProvider
-              .init(
-            userId:
-            firebaseUser.uid,
-          );
-        },
-        child:
-        CustomScrollView(
-          slivers: [
-
-
-            SliverPadding(
-              padding:
-              const EdgeInsets
-                  .fromLTRB(
-                16,
-                12,
-                16,
-                0,
-              ),
-              sliver:
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        // PROFILE
-                        GestureDetector(
-                          onTap: () {
-                            _showProfileSheet(
-                              context,
-                              firebaseUser,
-                              userProvider
-                                  .selectedUser,
-                            );
-                          },
-                          child:
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundColor:
-                            AppColors
-                                .greenDark,
-                            child:
-
       child: CustomScrollView(
         slivers: [
           SliverPadding(
@@ -217,87 +134,18 @@ class HomeScreen extends StatelessWidget {
                               height: 6,
                             ),
 
-
                             Text(
-                              _profileInitial(
-                                firebaseUser,
-                                userProvider
-                                    .selectedUser,
-                              ),
+                              '${_monthName(now.month)} ${now.year}',
                               style:
                               const TextStyle(
-
-                                color:
-                                AppColors
-                                    .green,
-
-                                fontSize: 45,
-
+                                fontSize: 21,
                                 fontWeight:
-                                FontWeight
-                                    .w800,
-                                fontSize:
-                                18,
+                                FontWeight.w800,
                               ),
                             ),
-                          ),
+                          ],
                         ),
-
-
-                        const SizedBox(
-                          width: 12,
-                        ),
-
-
-                        Expanded(
-                          child:
-                          Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
-                            children: [
-                              const Text(
-                                'Good Morning',
-                                style:
-                                TextStyle(
-                                  color:
-                                  AppColors
-                                      .muted,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 6,
-                              ),
-                              Text(
-                                '${_monthName(now.month)} ${now.year}',
-                                style:
-                                const TextStyle(
-                                  fontSize:
-                                  22,
-                                  fontWeight:
-                                  FontWeight
-                                      .w800,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-
-                        Container(
-                          padding:
-                          const EdgeInsets
-                              .all(
-                            12,
-                          ),
-                          decoration:
-                          BoxDecoration(
-                            color: AppColors
-                                .greenDark,
-                            borderRadius:
-                            BorderRadius
-                                .circular(
-                              12,
+                      ),
 
                       Container(
                         padding:
@@ -469,92 +317,53 @@ class HomeScreen extends StatelessWidget {
                           style:
                           const TextStyle(
                             fontSize: 20,
+                          ),
+                        ),
 
+                        const SizedBox(
+                          height: 6,
+                        ),
+
+                        Text(
+                          item.key,
+                          maxLines: 1,
+                          overflow:
+                          TextOverflow
+                              .ellipsis,
+                          style:
+                          const TextStyle(
+                            fontWeight:
+                            FontWeight.w700,
                           ),
-                          child:
-                          const Icon(
-                            Icons
-                                .notifications_none,
+                        ),
+
+                        const SizedBox(
+                          height: 3,
+                        ),
+
+                        Text(
+                          money(item.value),
+                          style:
+                          const TextStyle(
                             color:
-                            AppColors
-                                .text,
+                            AppColors.muted,
+                            fontSize: 11,
                           ),
+                        ),
+
+                        const Spacer(),
+
+                        ProgressLine(
+                          value: progress,
+                          color: info.color,
                         ),
                       ],
                     ),
-
-
-                    const SizedBox(
-                      height: 16,
-                    ),
-
-                    _userCard(
-                      firebaseUser,
-                      userProvider
-                          .selectedUser,
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
-
-
-
-            SliverPadding(
-              padding:
-              const EdgeInsets
-                  .fromLTRB(
-                16,
-                18,
-                16,
-                0,
-              ),
-              sliver:
-              SliverToBoxAdapter(
-                child:
-                _budgetCard(
-                  expenseProvider,
-                  userExpenses,
-                ),
-              ),
-            ),
-
-
-
-            SliverPadding(
-              padding:
-              const EdgeInsets
-                  .fromLTRB(
-                16,
-                28,
-                16,
-                0,
-              ),
-              sliver:
-              SliverToBoxAdapter(
-                child:
-                userExpenses.isEmpty
-                    ? const AppCard(
-                  child:
-                  Padding(
-                    padding:
-                    EdgeInsets
-                        .all(
-                      20,
-                    ),
-                    child:
-                    Center(
-                      child:
-                      Text(
-                        'No transactions yet',
-                      ),
-                    ),
-                  ),
-                )
-                    : TransactionTile(
-                  expense:
-                  userExpenses
-                      .first,
+          ),
 
 
 
@@ -611,25 +420,26 @@ class HomeScreen extends StatelessWidget {
 
                 return TransactionTile(
                   expense: expense,
-
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder:
-                            (_) =>
+                        builder: (_) =>
                             TransactionDetailsScreen(
                               expenseId:
-                              userExpenses
-                                  .first
-                                  .id,
+                              expense.id,
                             ),
                       ),
                     );
                   },
-                ),
-              ),
+                );
+              },
             ),
+          ),
+        ],
+      ),
+    );
+  }
 
 
 
@@ -637,260 +447,19 @@ class HomeScreen extends StatelessWidget {
       List<Expense> expenses) {
     final now = DateTime.now();
 
+    final todayExpenses =
+    expenses.where((expense) {
+      return expense.date.year == now.year &&
+          expense.date.month == now.month &&
+          expense.date.day == now.day;
+    }).toList();
 
-            SliverPadding(
-              padding:
-              const EdgeInsets
-                  .fromLTRB(
-                16,
-                12,
-                16,
-                0,
-              ),
-              sliver:
-              SliverToBoxAdapter(
-                child:
-                SectionTitle(
-                  'Top Categories',
-                  action:
-                  'View all',
-                  onAction: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (_) =>
-                        const AllCategoriesScreen(),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-
-
-
-
-            SliverPadding(
-              padding:
-              const EdgeInsets
-                  .symmetric(
-                horizontal: 16,
-              ),
-              sliver:
-              SliverToBoxAdapter(
-                child: top.isEmpty
-                    ? const AppCard(
-                  child:
-                  Padding(
-                    padding:
-                    EdgeInsets
-                        .all(
-                      18,
-                    ),
-                    child:
-                    Center(
-                      child:
-                      Text(
-                        'No category data',
-                      ),
-                    ),
-                  ),
-                )
-                    : GridView.builder(
-                  shrinkWrap:
-                  true,
-                  physics:
-                  const NeverScrollableScrollPhysics(),
-                  itemCount:
-                  top
-                      .take(
-                    4,
-                  )
-                      .length,
-                  gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                    2,
-                    crossAxisSpacing:
-                    10,
-                    mainAxisSpacing:
-                    10,
-                    childAspectRatio:
-                    1.25,
-                  ),
-                  itemBuilder:
-                      (
-                      _,
-                      index,
-                      ) {
-                    final item =
-                    top[index];
-
-                    final info =
-                    categoryInfo(
-                      item.key,
-                    );
-
-                    final max =
-                    top.isEmpty
-                        ? 1.0
-                        : top.first
-                        .value;
-
-                    final progress =
-                    max <= 0
-                        ? 0.0
-                        : (item.value /
-                        max)
-                        .clamp(
-                      0.0,
-                      1.0,
-                    )
-                        .toDouble();
-
-                    return Container(
-                      padding:
-                      const EdgeInsets
-                          .all(
-                        12,
-                      ),
-                      decoration:
-                      BoxDecoration(
-                        color:
-                        AppColors
-                            .card,
-                        borderRadius:
-                        BorderRadius
-                            .circular(
-                          14,
-                        ),
-                      ),
-                      child:
-                      Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment
-                            .start,
-                        children: [
-                          Text(
-                            info.emoji,
-                            style:
-                            const TextStyle(
-                              fontSize:
-                              20,
-                            ),
-                          ),
-
-                          const SizedBox(
-                            height: 6,
-                          ),
-
-                          Text(
-                            item.key,
-                            style:
-                            const TextStyle(
-                              fontWeight:
-                              FontWeight
-                                  .w700,
-                            ),
-                          ),
-
-                          const SizedBox(
-                            height: 3,
-                          ),
-
-                          Text(
-                            money(
-                              item.value,
-                            ),
-                            style:
-                            const TextStyle(
-                              color:
-                              AppColors
-                                  .muted,
-                              fontSize:
-                              11,
-                            ),
-                          ),
-
-                          const Spacer(),
-
-                          ProgressLine(
-                            value:
-                            progress,
-                            color:
-                            info
-                                .color,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-
-
-
-            SliverPadding(
-              padding:
-              const EdgeInsets
-                  .fromLTRB(
-                16,
-                24,
-                16,
-                8,
-              ),
-              sliver:
-              SliverToBoxAdapter(
-                child:
-                SectionTitle(
-                  'Recent Transaction',
-                  action:
-                  'View all',
-                  onAction: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (_) =>
-                        const AllTransactionsScreen(),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-
-
-            SliverPadding(
-              padding:
-              const EdgeInsets
-                  .fromLTRB(
-                16,
-                0,
-                16,
-                24,
-              ),
-              sliver:
-              userExpenses.isEmpty
-                  ? const SliverToBoxAdapter(
-                child:
-                AppCard(
-                  child:
-                  Padding(
-                    padding:
-                    EdgeInsets
-                        .all(
-                      20,
-                    ),
-                    child:
-                    Center(
-                      child:
-                      Text(
-                        'No recent transactions',
-                      ),
-                    ),
+    final todaySpent =
+    todayExpenses.fold<double>(
+      0,
+          (sum, expense) =>
+      sum + expense.amount,
+    );
 
     return AppCard(
       child: Row(
@@ -905,60 +474,31 @@ class HomeScreen extends StatelessWidget {
                   style: const TextStyle(
                     color: AppColors.muted,
                     fontSize: 12,
->>>>>>> hetal2
                   ),
                 ),
-              )
-                  : SliverList
-                  .separated(
-                itemCount:
-                userExpenses
-                    .take(
-                  5,
-                )
-                    .length,
-                separatorBuilder:
-                    (
-                    _,
-                    __,
-                    ) =>
-                const SizedBox(
-                  height: 8,
-                ),
-                itemBuilder:
-                    (
-                    _,
-                    index,
-                    ) {
-                  final expense =
-                  userExpenses[
-                  index];
 
-                  return TransactionTile(
-                    expense:
-                    expense,
-                    onTap: () {
-                      Navigator
-                          .push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (_) =>
-                              TransactionDetailsScreen(
-                                expenseId:
-                                expense.id,
-                              ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+                const SizedBox(height: 8),
+
+                Text(
+                  money(todaySpent),
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight:
+                    FontWeight.w800,
+                  ),
+                ),
+
+                const SizedBox(height: 5),
+
+                const Text(
+                  "Today's Spent",
+                  style: TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
-<<<<<<< HEAD
-          ],
-        ),
-=======
           ),
 
           Container(
@@ -976,7 +516,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
->>>>>>> hetal2
       ),
     );
   }
@@ -984,23 +523,14 @@ class HomeScreen extends StatelessWidget {
 
 
   String _profileInitial(
-<<<<<<< HEAD
-      firebase_auth.User?
-      firebaseUser,
-      dynamic selectedUser,
-      ) {
-=======
       firebase_auth.User? firebaseUser,
       dynamic selectedUser) {
->>>>>>> hetal2
     final name =
         firebaseUser?.displayName ??
             selectedUser?.name ??
             '';
 
-    if (name
-        .trim()
-        .isNotEmpty) {
+    if (name.trim().isNotEmpty) {
       return name
           .trim()
           .substring(0, 1)
@@ -1008,8 +538,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     final email =
-        firebaseUser?.email ??
-            '';
+        firebaseUser?.email ?? '';
 
     if (email.isNotEmpty) {
       return email
@@ -1024,18 +553,10 @@ class HomeScreen extends StatelessWidget {
 
   void _showProfileSheet(
       BuildContext context,
-<<<<<<< HEAD
-      firebase_auth.User?
-      firebaseUser,
-      dynamic selectedUser,
-      ) {
-=======
       firebase_auth.User? firebaseUser,
       dynamic selectedUser) {
->>>>>>> hetal2
     final authProvider =
-    context.read<
-        AuthProvider>();
+    context.read<AuthProvider>();
 
     final name =
         firebaseUser?.displayName ??
@@ -1043,8 +564,7 @@ class HomeScreen extends StatelessWidget {
             'User';
 
     final email =
-        firebaseUser?.email ??
-            '';
+        firebaseUser?.email ?? '';
 
     showModalBottomSheet(
       context: context,
@@ -1054,20 +574,14 @@ class HomeScreen extends StatelessWidget {
       const RoundedRectangleBorder(
         borderRadius:
         BorderRadius.vertical(
-          top: Radius.circular(
-            24,
-          ),
+          top: Radius.circular(24),
         ),
       ),
-      builder:
-          (sheetContext) {
+      builder: (sheetContext) {
         return SafeArea(
           child: Padding(
             padding:
-            const EdgeInsets
-                .all(
-              24,
-            ),
+            const EdgeInsets.all(24),
             child: Column(
               mainAxisSize:
               MainAxisSize.min,
@@ -1075,8 +589,7 @@ class HomeScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: 34,
                   backgroundColor:
-                  AppColors
-                      .greenDark,
+                  AppColors.greenDark,
                   child: Text(
                     _profileInitial(
                       firebaseUser,
@@ -1085,79 +598,65 @@ class HomeScreen extends StatelessWidget {
                     style:
                     const TextStyle(
                       color:
-                      AppColors
-                          .green,
+                      AppColors.green,
                       fontSize: 26,
                       fontWeight:
-                      FontWeight
-                          .w800,
+                      FontWeight.w800,
                     ),
                   ),
                 ),
 
-                const SizedBox(
-                  height: 12,
-                ),
+                const SizedBox(height: 12),
 
                 Text(
                   name,
-                  style:
-                  const TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight:
-                    FontWeight
-                        .w800,
+                    FontWeight.w800,
                   ),
                 ),
 
-                const SizedBox(
-                  height: 5,
-                ),
+                const SizedBox(height: 5),
 
                 Text(
                   email,
-                  style:
-                  const TextStyle(
-                    color:
-                    AppColors
-                        .muted,
+                  style: const TextStyle(
+                    color: AppColors.muted,
                     fontSize: 13,
                   ),
                 ),
 
-                const SizedBox(
-                  height: 24,
-                ),
+                const SizedBox(height: 24),
 
                 SizedBox(
-                  width:
-                  double.infinity,
+                  width: double.infinity,
                   height: 50,
                   child:
                   ElevatedButton.icon(
-                    onPressed:
-                        () async {
+                    onPressed: () async {
                       Navigator.pop(
                         sheetContext,
                       );
 
+                      context
+                          .read<
+                          ExpenseProvider>()
+                          .clearUser();
+
                       await authProvider
                           .logout();
                     },
-                    icon:
-                    const Icon(
+                    icon: const Icon(
                       Icons.logout,
                     ),
-                    label:
-                    const Text(
+                    label: const Text(
                       'Logout',
                     ),
                   ),
                 ),
 
-                const SizedBox(
-                  height: 8,
-                ),
+                const SizedBox(height: 8),
               ],
             ),
           ),
@@ -1168,12 +667,7 @@ class HomeScreen extends StatelessWidget {
 
 
   Widget _userCard(
-      firebase_auth.User?
-      firebaseUser,
       dynamic selectedUser,
-<<<<<<< HEAD
-      ) {
-=======
       firebase_auth.User? firebaseUser) {
     if (firebaseUser == null) {
       return Container(
@@ -1213,36 +707,28 @@ class HomeScreen extends StatelessWidget {
       );
     }
 
->>>>>>> hetal2
     final name =
-        firebaseUser?.displayName ??
+        firebaseUser.displayName ??
             selectedUser?.name ??
             'User';
 
     final email =
-        firebaseUser?.email ??
-            selectedUser
-                ?.mobileNumber ??
+        firebaseUser.email ??
+            selectedUser?.mobileNumber ??
             '';
 
     return Container(
       width: double.infinity,
       padding:
-      const EdgeInsets.all(
-        16,
-      ),
-      decoration:
-      BoxDecoration(
-        color:
-        AppColors.greenDark,
+      const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.greenDark,
         borderRadius:
-        BorderRadius.circular(
-          14,
-        ),
+        BorderRadius.circular(14),
         border: Border.all(
           color: AppColors.green
-              .withOpacity(
-            0.30,
+              .withValues(
+            alpha: 0.30,
           ),
         ),
       ),
@@ -1252,8 +738,8 @@ class HomeScreen extends StatelessWidget {
             radius: 24,
             backgroundColor:
             AppColors.green
-                .withOpacity(
-              0.15,
+                .withValues(
+              alpha: 0.15,
             ),
             child: Text(
               _profileInitial(
@@ -1262,64 +748,55 @@ class HomeScreen extends StatelessWidget {
               ),
               style:
               const TextStyle(
-                color:
-                AppColors.green,
+                color: AppColors.green,
+                fontSize: 20,
                 fontWeight:
                 FontWeight.w800,
-                fontSize: 18,
               ),
             ),
           ),
 
-          const SizedBox(
-            width: 12,
-          ),
+          const SizedBox(width: 12),
 
           Expanded(
             child: Column(
               crossAxisAlignment:
-              CrossAxisAlignment
-                  .start,
+              CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Logged In User',
-                  style:
-                  TextStyle(
-                    color:
-                    AppColors
-                        .muted,
+                  style: TextStyle(
+                    color: AppColors.muted,
                     fontSize: 11,
                   ),
                 ),
 
-                const SizedBox(
-                  height: 3,
-                ),
+                const SizedBox(height: 3),
 
                 Text(
                   name,
+                  maxLines: 1,
+                  overflow:
+                  TextOverflow.ellipsis,
                   style:
                   const TextStyle(
-                    color:
-                    AppColors.text,
+                    color: AppColors.text,
                     fontSize: 17,
                     fontWeight:
-                    FontWeight
-                        .w800,
+                    FontWeight.w800,
                   ),
                 ),
 
-                const SizedBox(
-                  height: 2,
-                ),
+                const SizedBox(height: 2),
 
                 Text(
                   email,
+                  maxLines: 1,
+                  overflow:
+                  TextOverflow.ellipsis,
                   style:
                   const TextStyle(
-                    color:
-                    AppColors
-                        .muted,
+                    color: AppColors.muted,
                     fontSize: 12,
                   ),
                 ),
@@ -1329,8 +806,7 @@ class HomeScreen extends StatelessWidget {
 
           const Icon(
             Icons.check_circle,
-            color:
-            AppColors.green,
+            color: AppColors.green,
           ),
         ],
       ),
@@ -1341,53 +817,29 @@ class HomeScreen extends StatelessWidget {
 
   Widget _budgetCard(
       ExpenseProvider provider,
-<<<<<<< HEAD
-      List userExpenses,
-      ) {
-    final now =
-    DateTime.now();
-=======
       List<Expense> userExpenses) {
     final now = DateTime.now();
->>>>>>> hetal2
 
     final monthlyExpenses =
-    userExpenses.where(
-          (expense) {
-        return !expense.isIncome &&
-            expense.date.year ==
-                now.year &&
-            expense.date.month ==
-                now.month;
-      },
-    ).toList();
+    userExpenses.where((expense) {
+      return !expense.isIncome &&
+          expense.date.year == now.year &&
+          expense.date.month == now.month;
+    }).toList();
 
-    final monthlyIncome =
-    userExpenses.where(
-          (expense) {
-        return expense.isIncome &&
-            expense.date.year ==
-                now.year &&
-            expense.date.month ==
-                now.month;
-      },
-    ).fold<double>(
+    final monthlySpent =
+    monthlyExpenses.fold<double>(
       0,
           (sum, expense) =>
       sum + expense.amount,
     );
 
-<<<<<<< HEAD
-    final monthlySpent =
-    monthlyExpenses.fold<double>(
-=======
     final monthlyIncome =
     userExpenses.where((expense) {
       return expense.isIncome &&
           expense.date.year == now.year &&
           expense.date.month == now.month;
     }).fold<double>(
->>>>>>> hetal2
       0,
           (sum, expense) =>
       sum + expense.amount,
@@ -1399,8 +851,7 @@ class HomeScreen extends StatelessWidget {
     final percent =
     budget <= 0
         ? 0.0
-        : (monthlySpent /
-        budget)
+        : (monthlySpent / budget)
         .clamp(
       0.0,
       1.0,
@@ -1408,22 +859,11 @@ class HomeScreen extends StatelessWidget {
         .toDouble();
 
     final remaining =
-        budget -
-            monthlySpent;
+        budget - monthlySpent;
 
     return AppCard(
-      child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment
-            .start,
+      child: Row(
         children: [
-<<<<<<< HEAD
-          Row(
-            children: [
-              const Expanded(
-                child: Text(
-                  'This Month',
-=======
           Expanded(
             child: Column(
               crossAxisAlignment:
@@ -1523,136 +963,23 @@ class HomeScreen extends StatelessWidget {
 
                 Text(
                   '${(percent * 100).round()}%',
->>>>>>> hetal2
                   style:
-                  TextStyle(
-                    color:
-                    AppColors
-                        .muted,
+                  const TextStyle(
+                    fontSize: 18,
+                    fontWeight:
+                    FontWeight.w800,
                   ),
                 ),
-              ),
-              Text(
-                '${(percent * 100).round()}%',
-                style:
-                const TextStyle(
-                  color:
-                  AppColors
-                      .green,
-                  fontWeight:
-                  FontWeight
-                      .w700,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(
-            height: 10,
-          ),
-
-          Text(
-            money(
-              monthlySpent,
-            ),
-            style:
-            const TextStyle(
-              fontSize: 26,
-              fontWeight:
-              FontWeight
-                  .w800,
+              ],
             ),
           ),
-
-          const SizedBox(
-            height: 5,
-          ),
-
-          Text(
-            'of ${money(budget)} budget',
-            style:
-            const TextStyle(
-              color:
-              AppColors.muted,
-              fontSize: 11,
-            ),
-          ),
-
-          const SizedBox(
-            height: 12,
-          ),
-
-          ProgressLine(
-            value: percent,
-            color:
-            AppColors.green,
-          ),
-
-          const SizedBox(
-            height: 12,
-          ),
-
-          const Text(
-            'REMAINING',
-            style:
-            TextStyle(
-              color:
-              AppColors.muted,
-              fontSize: 10,
-              fontWeight:
-              FontWeight
-                  .w700,
-            ),
-          ),
-
-          const SizedBox(
-            height: 3,
-          ),
-
-          Text(
-            money(
-              remaining,
-            ),
-            style:
-            const TextStyle(
-              color:
-              AppColors.green,
-              fontSize: 18,
-              fontWeight:
-              FontWeight
-                  .w800,
-            ),
-          ),
-
-          if (monthlyIncome > 0) ...[
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Income: ${money(monthlyIncome)}',
-              style:
-              const TextStyle(
-                color:
-                AppColors
-                    .muted,
-                fontSize: 11,
-              ),
-            ),
-          ],
         ],
       ),
     );
   }
 
 
-<<<<<<< HEAD
-
-  String _monthName(
-      int month,
-      ) {
-=======
   String _monthName(int month) {
->>>>>>> hetal2
     return const [
       'January',
       'February',
