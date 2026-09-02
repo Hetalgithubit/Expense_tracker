@@ -21,9 +21,13 @@ class HomeScreen extends StatelessWidget {
   });
 
   @override
+<<<<<<< HEAD
   Widget build(
       BuildContext context,
       ) {
+=======
+  Widget build(BuildContext context) {
+>>>>>>> hetal2
     final expenseProvider =
     context.watch<
         ExpenseProvider>();
@@ -40,6 +44,7 @@ class HomeScreen extends StatelessWidget {
     final now =
     DateTime.now();
 
+<<<<<<< HEAD
 
 
     if (firebaseUser == null) {
@@ -51,6 +56,9 @@ class HomeScreen extends StatelessWidget {
         ),
       );
     }
+=======
+    final firebaseUid = firebaseUser?.uid;
+>>>>>>> hetal2
 
 
     final userExpenses =
@@ -65,9 +73,13 @@ class HomeScreen extends StatelessWidget {
           ),
     );
 
+<<<<<<< HEAD
 
 
     final expenseOnly =
+=======
+    final List<Expense> expenseOnly =
+>>>>>>> hetal2
     userExpenses
         .where(
           (expense) =>
@@ -75,10 +87,14 @@ class HomeScreen extends StatelessWidget {
     )
         .toList();
 
+<<<<<<< HEAD
 
 
     final Map<String, double>
     totals = {};
+=======
+    final Map<String, double> categoryTotals = {};
+>>>>>>> hetal2
 
     for (final expense
     in expenseOnly) {
@@ -97,9 +113,8 @@ class HomeScreen extends StatelessWidget {
             ),
       );
 
-
-
     return SafeArea(
+<<<<<<< HEAD
       child:
       RefreshIndicator(
         onRefresh: () async {
@@ -146,6 +161,67 @@ class HomeScreen extends StatelessWidget {
                             AppColors
                                 .greenDark,
                             child:
+=======
+      child: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              12,
+              16,
+              0,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _showProfileSheet(
+                            context,
+                            firebaseUser,
+                            selectedUser,
+                          );
+                        },
+                        child: CircleAvatar(
+                          radius: 24,
+                          backgroundColor:
+                          AppColors.greenDark,
+                          child: Text(
+                            _profileInitial(
+                              firebaseUser,
+                              selectedUser,
+                            ),
+                            style: const TextStyle(
+                              color: AppColors.green,
+                              fontWeight:
+                              FontWeight.w800,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(width: 12),
+
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Good Morning',
+                              style: TextStyle(
+                                color: AppColors.muted,
+                              ),
+                            ),
+
+                            const SizedBox(
+                              height: 6,
+                            ),
+
+>>>>>>> hetal2
                             Text(
                               _profileInitial(
                                 firebaseUser,
@@ -154,9 +230,13 @@ class HomeScreen extends StatelessWidget {
                               ),
                               style:
                               const TextStyle(
+<<<<<<< HEAD
                                 color:
                                 AppColors
                                     .green,
+=======
+                                fontSize: 45,
+>>>>>>> hetal2
                                 fontWeight:
                                 FontWeight
                                     .w800,
@@ -167,6 +247,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
 
+<<<<<<< HEAD
                         const SizedBox(
                           width: 12,
                         ),
@@ -222,6 +303,178 @@ class HomeScreen extends StatelessWidget {
                                 .circular(
                               12,
                             ),
+=======
+                      Container(
+                        padding:
+                        const EdgeInsets.all(12),
+                        decoration:
+                        BoxDecoration(
+                          color:
+                          AppColors.greenDark,
+                          borderRadius:
+                          BorderRadius.circular(
+                            12,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.notifications_none,
+                          color: AppColors.text,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  _userCard(
+                    selectedUser,
+                    firebaseUser,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              18,
+              16,
+              0,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _budgetCard(
+                expenseProvider,
+                userExpenses,
+              ),
+            ),
+          ),
+
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              18,
+              16,
+              0,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _todaySpentCard(
+                expenseOnly,
+              ),
+            ),
+          ),
+
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              28,
+              16,
+              8,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: SectionTitle(
+                'Top Categories',
+                action: 'View all',
+                onAction: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                      const AllCategoriesScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+
+          SliverPadding(
+            padding:
+            const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: topCategories.isEmpty
+                  ? const AppCard(
+                child: Padding(
+                  padding:
+                  EdgeInsets.all(18),
+                  child: Center(
+                    child: Text(
+                      'No category data',
+                    ),
+                  ),
+                ),
+              )
+                  : GridView.builder(
+                shrinkWrap: true,
+                physics:
+                const NeverScrollableScrollPhysics(),
+                itemCount:
+                topCategories
+                    .take(4)
+                    .length,
+                gridDelegate:
+                const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1.25,
+                ),
+                itemBuilder:
+                    (_, index) {
+                  final item =
+                  topCategories[index];
+
+                  final info =
+                  categoryInfo(
+                    item.key,
+                  );
+
+                  final maxValue =
+                  topCategories
+                      .isEmpty
+                      ? 1.0
+                      : topCategories
+                      .first
+                      .value;
+
+                  final progress =
+                  maxValue <= 0
+                      ? 0.0
+                      : (item.value /
+                      maxValue)
+                      .clamp(
+                    0.0,
+                    1.0,
+                  )
+                      .toDouble();
+
+                  return Container(
+                    padding:
+                    const EdgeInsets.all(
+                      12,
+                    ),
+                    decoration:
+                    BoxDecoration(
+                      color:
+                      AppColors.card,
+                      borderRadius:
+                      BorderRadius.circular(
+                        14,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment
+                          .start,
+                      children: [
+                        Text(
+                          info.emoji,
+                          style:
+                          const TextStyle(
+                            fontSize: 20,
+>>>>>>> hetal2
                           ),
                           child:
                           const Icon(
@@ -235,6 +488,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
 
+<<<<<<< HEAD
                     const SizedBox(
                       height: 16,
                     ),
@@ -306,6 +560,63 @@ class HomeScreen extends StatelessWidget {
                   expense:
                   userExpenses
                       .first,
+=======
+
+
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              28,
+              16,
+              8,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: SectionTitle(
+                'Recent Transactions',
+                action: 'View all',
+                onAction: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                      const AllTransactionsScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+
+
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              0,
+              16,
+              30,
+            ),
+            sliver: userExpenses.isEmpty
+                ? const SliverToBoxAdapter(
+              child: SizedBox.shrink(),
+            )
+                : SliverList.separated(
+              itemCount:
+              userExpenses
+                  .take(5)
+                  .length,
+              separatorBuilder:
+                  (_, __) =>
+              const SizedBox(
+                height: 8,
+              ),
+              itemBuilder:
+                  (_, index) {
+                final expense =
+                userExpenses[index];
+
+                return TransactionTile(
+                  expense: expense,
+>>>>>>> hetal2
                   onTap: () {
                     Navigator.push(
                       context,
@@ -326,6 +637,13 @@ class HomeScreen extends StatelessWidget {
             ),
 
 
+<<<<<<< HEAD
+=======
+
+  Widget _todaySpentCard(
+      List<Expense> expenses) {
+    final now = DateTime.now();
+>>>>>>> hetal2
 
             SliverPadding(
               padding:
@@ -358,6 +676,7 @@ class HomeScreen extends StatelessWidget {
             ),
 
 
+<<<<<<< HEAD
 
             SliverPadding(
               padding:
@@ -579,6 +898,21 @@ class HomeScreen extends StatelessWidget {
                         'No recent transactions',
                       ),
                     ),
+=======
+    return AppCard(
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${now.day} ${_monthName(now.month)} ${now.year}',
+                  style: const TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 12,
+>>>>>>> hetal2
                   ),
                 ),
               )
@@ -628,8 +962,28 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
             ),
+<<<<<<< HEAD
           ],
         ),
+=======
+          ),
+
+          Container(
+            width: 58,
+            height: 58,
+            decoration: BoxDecoration(
+              color: AppColors.greenDark,
+              borderRadius:
+              BorderRadius.circular(16),
+            ),
+            child: const Icon(
+              Icons.account_balance_wallet_outlined,
+              color: AppColors.green,
+              size: 28,
+            ),
+          ),
+        ],
+>>>>>>> hetal2
       ),
     );
   }
@@ -637,10 +991,15 @@ class HomeScreen extends StatelessWidget {
 
 
   String _profileInitial(
+<<<<<<< HEAD
       firebase_auth.User?
       firebaseUser,
       dynamic selectedUser,
       ) {
+=======
+      firebase_auth.User? firebaseUser,
+      dynamic selectedUser) {
+>>>>>>> hetal2
     final name =
         firebaseUser?.displayName ??
             selectedUser?.name ??
@@ -672,10 +1031,15 @@ class HomeScreen extends StatelessWidget {
 
   void _showProfileSheet(
       BuildContext context,
+<<<<<<< HEAD
       firebase_auth.User?
       firebaseUser,
       dynamic selectedUser,
       ) {
+=======
+      firebase_auth.User? firebaseUser,
+      dynamic selectedUser) {
+>>>>>>> hetal2
     final authProvider =
     context.read<
         AuthProvider>();
@@ -810,12 +1174,53 @@ class HomeScreen extends StatelessWidget {
   }
 
 
-
   Widget _userCard(
       firebase_auth.User?
       firebaseUser,
       dynamic selectedUser,
+<<<<<<< HEAD
       ) {
+=======
+      firebase_auth.User? firebaseUser) {
+    if (firebaseUser == null) {
+      return Container(
+        width: double.infinity,
+        padding:
+        const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.red.withValues(
+            alpha: 0.08,
+          ),
+          borderRadius:
+          BorderRadius.circular(14),
+          border: Border.all(
+            color: Colors.red.withValues(
+              alpha: 0.25,
+            ),
+          ),
+        ),
+        child: const Row(
+          children: [
+            Icon(
+              Icons.person_off,
+              color: Colors.redAccent,
+            ),
+            SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                'Please login to view your expenses',
+                style: TextStyle(
+                  color: AppColors.muted,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+>>>>>>> hetal2
     final name =
         firebaseUser?.displayName ??
             selectedUser?.name ??
@@ -943,10 +1348,15 @@ class HomeScreen extends StatelessWidget {
 
   Widget _budgetCard(
       ExpenseProvider provider,
+<<<<<<< HEAD
       List userExpenses,
       ) {
     final now =
     DateTime.now();
+=======
+      List<Expense> userExpenses) {
+    final now = DateTime.now();
+>>>>>>> hetal2
 
     final monthlyExpenses =
     userExpenses.where(
@@ -974,8 +1384,17 @@ class HomeScreen extends StatelessWidget {
       sum + expense.amount,
     );
 
+<<<<<<< HEAD
     final monthlySpent =
     monthlyExpenses.fold<double>(
+=======
+    final monthlyIncome =
+    userExpenses.where((expense) {
+      return expense.isIncome &&
+          expense.date.year == now.year &&
+          expense.date.month == now.month;
+    }).fold<double>(
+>>>>>>> hetal2
       0,
           (sum, expense) =>
       sum + expense.amount,
@@ -1005,11 +1424,113 @@ class HomeScreen extends StatelessWidget {
         CrossAxisAlignment
             .start,
         children: [
+<<<<<<< HEAD
           Row(
             children: [
               const Expanded(
                 child: Text(
                   'This Month',
+=======
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'This Month',
+                  style: TextStyle(
+                    color: AppColors.muted,
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Text(
+                  money(monthlySpent),
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight:
+                    FontWeight.w800,
+                  ),
+                ),
+
+                const SizedBox(height: 5),
+
+                Text(
+                  'of ${money(budget)} budget',
+                  style: const TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 11,
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                const Text(
+                  'REMAINING',
+                  style: TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 10,
+                    fontWeight:
+                    FontWeight.w700,
+                  ),
+                ),
+
+                const SizedBox(height: 3),
+
+                Text(
+                  money(remaining),
+                  style: const TextStyle(
+                    color: AppColors.green,
+                    fontSize: 18,
+                    fontWeight:
+                    FontWeight.w800,
+                  ),
+                ),
+
+                if (monthlyIncome > 0) ...[
+                  const SizedBox(height: 5),
+                  Text(
+                    'Income: ${money(monthlyIncome)}',
+                    style:
+                    const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+
+          const SizedBox(width: 16),
+
+          SizedBox(
+            width: 92,
+            height: 92,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 86,
+                  height: 86,
+                  child:
+                  CircularProgressIndicator(
+                    value: percent,
+                    strokeWidth: 9,
+                    backgroundColor:
+                    AppColors.greenDark,
+                    valueColor:
+                    const AlwaysStoppedAnimation<
+                        Color>(
+                      AppColors.green,
+                    ),
+                  ),
+                ),
+
+                Text(
+                  '${(percent * 100).round()}%',
+>>>>>>> hetal2
                   style:
                   TextStyle(
                     color:
@@ -1131,10 +1652,14 @@ class HomeScreen extends StatelessWidget {
   }
 
 
+<<<<<<< HEAD
 
   String _monthName(
       int month,
       ) {
+=======
+  String _monthName(int month) {
+>>>>>>> hetal2
     return const [
       'January',
       'February',

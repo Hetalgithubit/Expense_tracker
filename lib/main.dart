@@ -99,6 +99,10 @@ class _ExpenseTrackerAppState
         );
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> hetal2
 
   Future<void>
   _initializeApp() async {
@@ -188,7 +192,10 @@ class _ExpenseTrackerAppState
     super.dispose();
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> hetal2
 
   @override
   Widget build(
@@ -229,7 +236,10 @@ class _ExpenseTrackerAppState
   }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> hetal2
 
 class AuthGate
     extends StatelessWidget {
@@ -329,6 +339,10 @@ class _LoadingScreen
   }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> hetal2
 
 class _InitializationErrorScreen
     extends StatelessWidget {
