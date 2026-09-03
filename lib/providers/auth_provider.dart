@@ -82,13 +82,13 @@ class AuthProvider extends ChangeNotifier {
         return null;
       }
 
-      // Firebase display name
+
       await newUser
           .updateDisplayName(
         name.trim(),
       );
 
-      // Firestore profile
+
       await _firestore
           .collection('users')
           .doc(newUser.uid)
@@ -109,11 +109,6 @@ class AuthProvider extends ChangeNotifier {
       _user =
           _auth.currentUser;
 
-      /*
-       IMPORTANT:
-       Signup complete but user should
-       login from Login screen.
-      */
 
       await _auth.signOut();
 
@@ -150,7 +145,6 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-  // LOGIN
 
 
   Future<User?> login({
@@ -194,7 +188,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-  // LOGOUT
+
 
   Future<void> logout() async {
     _setLoading(true);
@@ -222,7 +216,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-  // PASSWORD RESET
+
 
 
   Future<void>
@@ -253,7 +247,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-  // USER PROFILE
+
 
 
   Future<Map<String, dynamic>?>
@@ -279,7 +273,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-  // UPDATE PROFILE
+
 
   Future<void> updateUserProfile({
     required String name,
@@ -342,7 +336,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-  // ERROR
+
 
 
   void clearError() {

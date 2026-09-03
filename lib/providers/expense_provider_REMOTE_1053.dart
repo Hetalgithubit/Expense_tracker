@@ -84,10 +84,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> hetal2
 
   DocumentReference<Map<String, dynamic>>?
   get _budgetDocument {
@@ -243,10 +239,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> hetal2
 
 
   Future<void>
@@ -261,10 +254,7 @@ class ExpenseProvider extends ChangeNotifier {
       return;
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> hetal2
 
     final uid =
         firebaseUser.uid;
@@ -303,10 +293,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> hetal2
 
 
   Future<void> addExpense(
@@ -353,10 +340,6 @@ class ExpenseProvider extends ChangeNotifier {
     );
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> hetal2
 
 
     _selectedUserId = uid;
@@ -468,10 +451,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> hetal2
 
 
   Future<void> deleteExpense(
@@ -661,10 +641,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> hetal2
 
 
   Future<void> setCategoryBudget(
@@ -772,10 +749,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> hetal2
 
   double get monthlyIncome {
     return currentMonthExpenses
@@ -918,10 +892,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> hetal2
 
   double incomeBetween(
       DateTime from,

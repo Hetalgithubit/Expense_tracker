@@ -20,7 +20,7 @@ class DatabaseHelper {
       FirebaseFirestore.instance;
 
 
-  // DATABASE
+
 
 
   Future<Database> get database async {
@@ -60,7 +60,7 @@ class DatabaseHelper {
   }
 
 
-  // CREATE DATABASE
+
 
 
   Future<void> _onCreate(
@@ -77,12 +77,6 @@ class DatabaseHelper {
       )
     ''');
 
-    // IMPORTANT:
-    // No FOREIGN KEY on user_id.
-    //
-    // Firebase UID is used here.
-    // Firebase UID does not necessarily exist in
-    // local SQLite users table.
 
     await db.execute('''
       CREATE TABLE expenses (
@@ -111,7 +105,7 @@ class DatabaseHelper {
   }
 
 
-  // DATABASE UPGRADE
+
 
 
   Future<void> _onUpgrade(
@@ -162,7 +156,7 @@ class DatabaseHelper {
     }
 
 
-    // VERSION 3
+
 
     if (oldVersion < 3) {
       final settingsExists =
@@ -209,10 +203,7 @@ class DatabaseHelper {
     }
 
 
-    // VERSION 4
-    //
-    // Remove old FOREIGN KEY relationship from expenses.
-    // Existing database needs table recreation.
+
 
 
     if (oldVersion < 4) {
@@ -223,7 +214,7 @@ class DatabaseHelper {
   }
 
 
-  // REBUILD EXPENSE TABLE
+
 
 
   Future<void> _rebuildExpensesTable(
@@ -425,8 +416,6 @@ class DatabaseHelper {
   }
 
 
-  // EXPENSES
-
 
   Future<int> insertExpense(
       Expense expense,
@@ -434,8 +423,7 @@ class DatabaseHelper {
     final db =
     await database;
 
-    // No foreign key check here.
-    // user_id is Firebase UID.
+
 
     return await db.insert(
       'expenses',
@@ -645,8 +633,7 @@ class DatabaseHelper {
               .replace,
         );
       } catch (e) {
-        // Do not fail Firestore
-        // because of local SQLite.
+
         print(
           'Local budget save failed: $e',
         );
@@ -664,7 +651,7 @@ class DatabaseHelper {
   }
 
 
-  // GET BUDGET FROM FIRESTORE
+
 
 
   Future<Budget?> getBudget(
@@ -718,7 +705,7 @@ class DatabaseHelper {
   }
 
 
-  // GET LOCAL BUDGET
+
 
 
   Future<Budget?>
@@ -765,7 +752,7 @@ class DatabaseHelper {
   }
 
 
-  // CLOSE DATABASE
+
 
 
   Future<void>

@@ -84,10 +84,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> hetal2
 
   DocumentReference<Map<String, dynamic>>?
   get _budgetDocument {
@@ -195,12 +192,12 @@ class ExpenseProvider extends ChangeNotifier {
           loaded.add(expense);
         } catch (e) {
           debugPrint(
-            'EXPENSE PARSE ERROR: '
+            '🔥 EXPENSE PARSE ERROR: '
                 '${doc.id} | $e',
           );
 
           debugPrint(
-            'RAW FIRESTORE DATA: '
+            '🔥 RAW FIRESTORE DATA: '
                 '${doc.data()}',
           );
         }
@@ -243,10 +240,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> hetal2
 
 
   Future<void>
@@ -261,10 +254,6 @@ class ExpenseProvider extends ChangeNotifier {
       return;
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> hetal2
 
     final uid =
         firebaseUser.uid;
@@ -303,10 +292,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> hetal2
 
 
   Future<void> addExpense(
@@ -353,10 +338,7 @@ class ExpenseProvider extends ChangeNotifier {
     );
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> hetal2
 
 
     _selectedUserId = uid;
@@ -391,7 +373,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-
+  // UPDATE EXPENSE
 
 
   Future<void> updateExpense(
@@ -468,10 +450,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> hetal2
 
 
   Future<void> deleteExpense(
@@ -661,10 +639,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> hetal2
 
 
   Future<void> setCategoryBudget(
@@ -762,7 +736,7 @@ class ExpenseProvider extends ChangeNotifier {
 
 
 
-   double get monthlySpent {
+  double get monthlySpent {
     return currentMonthOnlyExpenses
         .fold<double>(
       0,
@@ -772,10 +746,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> hetal2
 
   double get monthlyIncome {
     return currentMonthExpenses
@@ -918,10 +888,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> hetal2
 
   double incomeBetween(
       DateTime from,
