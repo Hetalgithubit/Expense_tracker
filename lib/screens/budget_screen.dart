@@ -508,7 +508,6 @@ class _BudgetScreenState
           ),
 
 
-
           if (editing) ...[
             const Text(
               "Set This Month's Budget",
