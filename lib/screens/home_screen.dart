@@ -124,21 +124,21 @@ class HomeScreen extends StatelessWidget {
                           CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Good Morning',
+                              'Good Evening',
                               style: TextStyle(
-                                color: AppColors.muted,
+                                color: AppColors.red,
                               ),
                             ),
 
                             const SizedBox(
-                              height: 6,
+                              height: 20,
                             ),
 
                             Text(
                               '${_monthName(now.month)} ${now.year}',
                               style:
                               const TextStyle(
-                                fontSize: 21,
+                                fontSize: 70,
                                 fontWeight:
                                 FontWeight.w800,
                               ),
@@ -216,7 +216,7 @@ class HomeScreen extends StatelessWidget {
             ),
             sliver: SliverToBoxAdapter(
               child: SectionTitle(
-                'Top Categories',
+                'Top items and categories',
                 action: 'View all',
                 onAction: () {
                   Navigator.push(
@@ -376,7 +376,7 @@ class HomeScreen extends StatelessWidget {
             ),
             sliver: SliverToBoxAdapter(
               child: SectionTitle(
-                'Recent Transactions',
+                'Latest Transactions',
                 action: 'View all',
                 onAction: () {
                   Navigator.push(
