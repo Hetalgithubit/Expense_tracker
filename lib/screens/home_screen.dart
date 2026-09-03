@@ -124,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                           CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'Good Evening',
+                              'Good evening Guys welcome to Expense tracker app',
                               style: TextStyle(
                                 color: AppColors.red,
                               ),
@@ -153,7 +153,7 @@ class HomeScreen extends StatelessWidget {
                         decoration:
                         BoxDecoration(
                           color:
-                          AppColors.greenDark,
+                          AppColors.orange,
                           borderRadius:
                           BorderRadius.circular(
                             12,
