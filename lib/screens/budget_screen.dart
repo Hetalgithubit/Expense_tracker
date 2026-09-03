@@ -474,27 +474,14 @@ class _BudgetScreenState
                             ),
                           ),
 
+
+
                           const SizedBox(
                             width: 4,
                           ),
 
-                          IconButton(
-                            tooltip:
-                            'Edit category budget',
-                            onPressed: () {
-                              _editCategoryBudget(
-                                provider,
-                                category
-                                    .name,
-                              );
-                            },
-                            icon:
-                            const Icon(
-                              Icons
-                                  .edit_outlined,
-                              size: 19,
-                            ),
-                          ),
+
+
                         ],
                       ),
 
@@ -519,7 +506,6 @@ class _BudgetScreenState
           const SizedBox(
             height: 4,
           ),
-
 
 
           if (editing) ...[
