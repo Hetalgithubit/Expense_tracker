@@ -138,7 +138,7 @@ class HomeScreen extends StatelessWidget {
                               '${_monthName(now.month)} ${now.year}',
                               style:
                               const TextStyle(
-                                fontSize: 45,
+                                fontSize: 21,
                                 fontWeight:
                                 FontWeight.w800,
                               ),
