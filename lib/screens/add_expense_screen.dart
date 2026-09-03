@@ -177,8 +177,6 @@ class _AddExpenseScreenState
         );
       }
 
-
-
       else {
         await provider.updateExpense(
           expense,
