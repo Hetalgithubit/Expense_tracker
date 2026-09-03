@@ -84,10 +84,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
   DocumentReference<Map<String, dynamic>>?
   get _budgetDocument {
@@ -243,10 +240,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
 
   Future<void>
@@ -261,10 +254,7 @@ class ExpenseProvider extends ChangeNotifier {
       return;
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
     final uid =
         firebaseUser.uid;
@@ -303,10 +293,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
 
   Future<void> addExpense(
@@ -353,10 +340,7 @@ class ExpenseProvider extends ChangeNotifier {
     );
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
 
     _selectedUserId = uid;
@@ -468,10 +452,6 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
 
   Future<void> deleteExpense(
@@ -661,10 +641,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
 
   Future<void> setCategoryBudget(
@@ -772,10 +749,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
   double get monthlyIncome {
     return currentMonthExpenses
@@ -918,10 +892,7 @@ class ExpenseProvider extends ChangeNotifier {
   }
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
   double incomeBetween(
       DateTime from,

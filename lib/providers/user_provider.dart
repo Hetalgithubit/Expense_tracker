@@ -30,13 +30,7 @@ class UserProvider extends ChangeNotifier {
       _auth.currentUser?.uid;
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> hetal2
-=======
->>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
 
   Future<void> init() async {
