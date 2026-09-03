@@ -1,5 +1,3 @@
-
-
 class Budget {
 
   final double monthly;
