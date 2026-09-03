@@ -178,9 +178,13 @@ class _AddExpenseScreenState
       }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> hetal2
+=======
+
+>>>>>>> b20f2304806983d4e1f367df8d6e7e6e9ec06914
 
       else {
         await provider.updateExpense(
