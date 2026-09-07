@@ -274,7 +274,6 @@ class AuthProvider extends ChangeNotifier {
 
 
 
-
   Future<void> updateUserProfile({
     required String name,
     required String mobileNumber,
