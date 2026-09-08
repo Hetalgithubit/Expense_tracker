@@ -13,9 +13,12 @@ import 'providers/user_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_shell.dart';
 import 'theme/app_theme.dart';
+import 'services/notification_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+
 
   await Firebase.initializeApp(
     options:
@@ -31,6 +34,17 @@ Future<void> main() async {
 
   final expenseProvider =
   ExpenseProvider();
+
+  await NotificationService.initialize();
+  await NotificationService.requestPermission();
+
+
+
+  await NotificationService.showNotification(
+    id: 1,
+    title: 'Expense Tracker Test',
+    body:'Local notification is working'
+  );
 
   runApp(
     MultiProvider(
@@ -79,6 +93,7 @@ class _ExpenseTrackerAppState
     extends State<ExpenseTrackerApp> {
   late Future<void>
   initialization;
+
 
   StreamSubscription<User?>?
   _authSubscription;

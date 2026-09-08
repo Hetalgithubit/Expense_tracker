@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_tracker/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/budget.dart';
 import '../models/expense.dart';
+import '../services/notification_service.dart';
 
 class ExpenseProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore =
@@ -339,6 +341,15 @@ class ExpenseProvider extends ChangeNotifier {
       newExpense.toFirestoreMap(),
     );
 
+    //notification expense addeed
+
+    await NotificationService.showNotification(
+        id:
+        DateTime.now().millisecondsSinceEpoch.remainder(100000),
+        title: 'Expense Added',
+        body: '${newExpense.category} - ₹${newExpense.amount} '
+        );
+
 
 
 
@@ -432,6 +443,15 @@ class ExpenseProvider extends ChangeNotifier {
       ),
     );
 
+    //notification updated
+
+    await NotificationService.showNotification(
+        id:
+        DateTime.now().millisecondsSinceEpoch.remainder(10000),
+        title: 'Expense Updated',
+        body: '${updatedExpense.category} - ₹${updatedExpense.amount}',
+    );
+
     if (index >= 0) {
       _expenses[index] =
           updatedExpense;
@@ -478,6 +498,14 @@ class ExpenseProvider extends ChangeNotifier {
     await collection
         .doc(id)
         .delete();
+
+    // notification expense delete
+
+    await NotificationService.showNotification(
+        id:
+        DateTime.now().millisecondsSinceEpoch.remainder(10000),
+        title: 'Expense Deleted',
+        body: 'Expense deleted successfully');
 
     _expenses.removeWhere(
           (item) => item.id == id,
@@ -588,6 +616,14 @@ class ExpenseProvider extends ChangeNotifier {
         merge: true,
       ),
     );
+
+    //update budget notification
+
+    await NotificationService.showNotification(
+        id:
+        DateTime.now().millisecondsSinceEpoch.remainder(10000),
+        title: 'Budget Updated',
+        body: 'Monthly budget saved successfully');
 
     _budget = Budget(
       monthly: budget.monthly,
