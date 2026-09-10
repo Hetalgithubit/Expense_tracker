@@ -341,16 +341,16 @@ class ExpenseProvider extends ChangeNotifier {
       newExpense.toFirestoreMap(),
     );
 
-    //notification expense addeed
+
+
+    // notification income added
 
     await NotificationService.showNotification(
         id:
         DateTime.now().millisecondsSinceEpoch.remainder(100000),
-        title: 'Expense Added',
+        title: newExpense.isIncome ? 'Income Added' : 'Expense added',
         body: '${newExpense.category} - ₹${newExpense.amount} '
-        );
-
-
+    );
 
 
 
@@ -448,7 +448,7 @@ class ExpenseProvider extends ChangeNotifier {
     await NotificationService.showNotification(
         id:
         DateTime.now().millisecondsSinceEpoch.remainder(10000),
-        title: 'Expense Updated',
+        title: updatedExpense.isIncome ? 'income updated' : 'expense updated',
         body: '${updatedExpense.category} - ₹${updatedExpense.amount}',
     );
 
@@ -500,12 +500,17 @@ class ExpenseProvider extends ChangeNotifier {
         .delete();
 
     // notification expense delete
-
+    final deletedExpense = getExpenseById(id);
     await NotificationService.showNotification(
         id:
         DateTime.now().millisecondsSinceEpoch.remainder(10000),
-        title: 'Expense Deleted',
-        body: 'Expense deleted successfully');
+        title: deletedExpense?.isIncome == true ? 'Income Deleted' : 'Expense Deleted',
+        body: deletedExpense != null
+             ? '${deletedExpense.category} - ${deletedExpense.amount}'
+            : 'Transaction deleted successfully',
+);
+
+
 
     _expenses.removeWhere(
           (item) => item.id == id,

@@ -5,6 +5,7 @@ import 'add_expense_screen.dart';
 import 'analytics_screen.dart';
 import 'budget_screen.dart';
 import 'home_screen.dart';
+import 'all_transactions_screen.dart';
 
 
 class MainShell extends StatefulWidget {
@@ -28,6 +29,7 @@ class _MainShellState
       const AnalyticsScreen(),
       AddExpenseScreen(),
       const BudgetScreen(),
+      const AllTransactionsScreen(),
     ];
 
     return Scaffold(
@@ -83,7 +85,17 @@ class _MainShellState
               Icons.account_balance_wallet,
               color: AppColors.green,
             ),
-            label: 'Budget',
+            label: 'Bugdet',
+          ),
+            NavigationDestination(
+              icon: Icon(
+                Icons.history_outlined,
+              ),
+              selectedIcon: Icon(
+                Icons.history,
+                color: AppColors.green,
+              ),
+              label: 'History',
           ),
         ],
       ),

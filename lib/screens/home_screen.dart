@@ -193,6 +193,7 @@ class HomeScreen extends StatelessWidget {
               ),
               sliver: SliverToBoxAdapter(
                 child: _todaySpentCard(
+                  context,
                   expenseOnly,
                 ),
               ),
@@ -430,6 +431,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _todaySpentCard(
+      BuildContext context,
       List expenses,
       ) {
     final now = DateTime.now();
@@ -519,11 +521,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(
-            Icons.nightlight_round,
-            color: Colors.blueAccent,
-            size: 25,
-          ),
+
         ],
       ),
     );

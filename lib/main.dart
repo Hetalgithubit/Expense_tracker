@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart'
     show User;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,15 +17,42 @@ import 'screens/main_shell.dart';
 import 'theme/app_theme.dart';
 import 'services/notification_service.dart';
 
+@pragma('vm:entry:point')
+Future<void> _firebaseMessagingBackgroundHandler(
+     RemoteMessage message,
+) async{
+  await Firebase.initializeApp(
+    options:
+      DefaultFirebaseOptions
+        .currentPlatform,
+  );
+}
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
-
   await Firebase.initializeApp(
-    options:
-    DefaultFirebaseOptions
-        .currentPlatform,
+  options:
+  DefaultFirebaseOptions
+      .currentPlatform,
+  );
+
+  FirebaseMessaging.onBackgroundMessage(
+    _firebaseMessagingBackgroundHandler,
+  );
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    final notification = message.notification;
+
+    if (notification != null) {
+      NotificationService.showNotification(
+        id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
+        title: notification.title ?? 'Expense Tracker',
+        body: notification.body ?? '',
+      );
+    }
+  }
   );
 
   final authProvider =
@@ -37,6 +66,27 @@ Future<void> main() async {
 
   await NotificationService.initialize();
   await NotificationService.requestPermission();
+
+  final FirebaseMessaging messaging =
+  FirebaseMessaging.instance;
+
+  final NotificationSettings settings =
+  await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  debugPrint(
+    'FCM Permission: ${settings.authorizationStatus}',
+  );
+
+  final String? fcmToken =
+  await messaging.getToken();
+
+  debugPrint(
+    'FCM TOKEN: $fcmToken',
+  );
 
 
 
