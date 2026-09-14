@@ -1,4 +1,9 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -27,6 +32,65 @@ class NotificationService {
         AndroidFlutterLocalNotificationsPlugin>();
 
     await androidPlugin?.requestNotificationsPermission();
+  }
+
+  static Future<void> initializeFCM() async {
+    final messaging = FirebaseMessaging.instance;
+
+    final settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    debugPrint(
+      'FCM Permission: ${settings.authorizationStatus}',
+    );
+
+
+    final token = await messaging.getToken();
+
+    if (token != null) {
+      debugPrint('FCM TOKEN: $token');
+      await saveFCMToken(token);
+    }
+
+    FirebaseMessaging.instance.onTokenRefresh.listen(
+          (newToken) async {
+        debugPrint('NEW FCM TOKEN: $newToken');
+        await saveFCMToken(newToken);
+      },
+    );
+  }
+
+  static Future<void> saveFCMToken(String token) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      debugPrint('FCM token not saved: user not logged in');
+      return;
+    }
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('fcmTokens')
+          .doc(token)
+          .set({
+        'token': token,
+        'platform': Platform.operatingSystem,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      debugPrint(
+        'FCM TOKEN SAVED TO FIRESTORE: ${user.uid}',
+      );
+    } catch (e) {
+      debugPrint(
+        'FCM TOKEN SAVE ERROR: $e',
+      );
+    }
   }
 
   static Future<void> showNotification({

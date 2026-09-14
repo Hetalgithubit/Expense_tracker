@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart'
     show User;
 import 'package:firebase_core/firebase_core.dart';
@@ -19,11 +18,11 @@ import 'services/notification_service.dart';
 
 @pragma('vm:entry:point')
 Future<void> _firebaseMessagingBackgroundHandler(
-     RemoteMessage message,
-) async{
+    RemoteMessage message,
+    ) async{
   await Firebase.initializeApp(
     options:
-      DefaultFirebaseOptions
+    DefaultFirebaseOptions
         .currentPlatform,
   );
 }
@@ -33,9 +32,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
-  options:
-  DefaultFirebaseOptions
-      .currentPlatform,
+    options:
+    DefaultFirebaseOptions
+        .currentPlatform,
   );
 
   FirebaseMessaging.onBackgroundMessage(
@@ -43,6 +42,10 @@ Future<void> main() async {
   );
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    debugPrint('FCM MESSAGE RECEIVED');
+    debugPrint('Title: ${message.notification?.title}');
+    debugPrint('Body: ${message.notification?.body}');
+
     final notification = message.notification;
 
     if (notification != null) {
@@ -52,48 +55,19 @@ Future<void> main() async {
         body: notification.body ?? '',
       );
     }
-  }
-  );
-
-  final authProvider =
-  AuthProvider();
-
-  final userProvider =
-  UserProvider();
-
-  final expenseProvider =
-  ExpenseProvider();
+  });
 
   await NotificationService.initialize();
   await NotificationService.requestPermission();
 
-  final FirebaseMessaging messaging =
-  FirebaseMessaging.instance;
-
-  final NotificationSettings settings =
-  await messaging.requestPermission(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-
-  debugPrint(
-    'FCM Permission: ${settings.authorizationStatus}',
-  );
-
-  final String? fcmToken =
-  await messaging.getToken();
-
-  debugPrint(
-    'FCM TOKEN: $fcmToken',
-  );
-
-
+  final authProvider = AuthProvider();
+  final userProvider = UserProvider();
+  final expenseProvider = ExpenseProvider();
 
   await NotificationService.showNotification(
-    id: 1,
-    title: 'Expense Tracker Test',
-    body:'Local notification is working'
+      id: 1,
+      title: 'Expense Tracker Test',
+      body:'Local notification is working'
   );
 
   runApp(
@@ -210,6 +184,7 @@ class _ExpenseTrackerAppState
       debugPrint(
         'AUTH LOGIN UID: $uid',
       );
+      await NotificationService.initializeFCM();
 
       await widget
           .userProvider
